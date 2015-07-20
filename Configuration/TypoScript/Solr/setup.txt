@@ -330,6 +330,13 @@ plugin.tx_solr {
 		forceHttps = 0
 	}
 
+	collapsing = 1
+	collapsing {
+		field = collapseId
+		expand = 1
+		maxExpandedResults = 10
+	}
+
 	statistics = 0
 	statistics {
 		anonymizeIP = 0

@@ -102,6 +102,11 @@
 					###LLL:file_mimetype###: ###RESULT_DOCUMENT.fileMimeType###<br />
 					###LLL:file_referenced###: ###LINK:###RESULT_DOCUMENT.fileReferenceTitle###|###RESULT_DOCUMENT.fileReferenceUrl######
 				</p>
+				<ul class="references">
+					<!-- ###FOR_LOOP:###RESULT_DOCUMENT.EXPANDED###|occurence### begin -->
+					<li>###LINK:###occurence.fileReferenceTitle###|###occurence.fileReferenceUrl######</li>
+					<!-- ###FOR_LOOP:###RESULT_DOCUMENT.EXPANDED###|occurence### end -->
+				</ul>
 				<!-- ###IF:###RESULT_DOCUMENT.TYPE###|==|tx_solr_file### end -->
 
 				###RESULT_DOCUMENT.SCORE_ANALYSIS###

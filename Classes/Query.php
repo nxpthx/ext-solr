@@ -71,6 +71,12 @@ class Query {
 	protected $linkTargetPageId;
 
 	/**
+	 * The field by which the result will be collapsed
+	 * @var string
+	 */
+	protected $collapseField = 'collapseId';
+
+	/**
 	 * Holds the query fields with their associated boosts. The key represents
 	 * the field name, value represents the field's boost. These are the fields
 	 * that will actually be searched.
@@ -119,6 +125,15 @@ class Query {
 		$this->linkTargetPageId = $this->solrConfiguration['search.']['targetPage'];
 		if (empty($this->linkTargetPageId)) {
 			$this->linkTargetPageId = $GLOBALS['TSFE']->id;
+		}
+
+		// check collapsing
+		if (!empty($this->solrConfiguration['collapsing'])) {
+			if (isset($this->solrConfiguration['collapsing.']['field'])) {
+				$this->setCollapseField($this->solrConfiguration['collapsing.']['field']);
+			} else {
+				$this->setCollapsing(true);
+			}
 		}
 
 		$this->id = ++self::$idCount;
@@ -345,6 +360,49 @@ class Query {
 			unset($this->queryParameters['forceElevation']);
 			$this->removeReturnField('isElevated:[elevated]');
 			$this->removeReturnField('[elevated]'); // fallback
+		}
+	}
+
+	// collapsing
+
+	/**
+	 * Check whether collapsing is active
+	 *
+	 * @return boolean
+	 */
+	public function isCollapsing() {
+		return array_key_exists('collapsing', $this->filters);
+	}
+
+	/**
+	 * @param string $fieldName
+	 */
+	public function setCollapseField($fieldName) {
+		$this->collapseField = $fieldName;
+		$this->setCollapsing(true);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCollapseField() {
+		return $this->collapseField;
+	}
+
+	/**
+	 * @param bool $collapsing
+	 */
+	public function setCollapsing($collapsing = true) {
+		if ($collapsing) {
+			$this->filters['collapsing'] = '{!collapse field=' . $this->collapseField . '}';
+			if (!empty($this->solrConfiguration['collapsing.']['expand'])) {
+				$this->queryParameters['expand'] = 'true';
+				$this->queryParameters['expand.rows'] = (int)$this->solrConfiguration['collapsing.']['maxExpandedResults'] ?: 100;
+			}
+		} else {
+			unset($this->filters['collapsing']);
+			unset($this->queryParameters['expand']);
+			unset($this->queryParameters['expand.rows']);
 		}
 	}
 
@@ -1049,7 +1107,7 @@ class Query {
 		$queryParameters = array_merge(
 			array(
 				'fl' => implode(',', $this->fieldList),
-				'fq' => $this->filters
+				'fq' => array_values($this->filters)
 			),
 			$this->queryParameters
 		);

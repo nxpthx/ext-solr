@@ -6,6 +6,7 @@ return array(
 	'Tx_Solr_ViewHelper_Date' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\Date',
 	'Tx_Solr_ViewHelper_Facet' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\Facet',
 	'Tx_Solr_ViewHelper_Link' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\Link',
+	'Tx_Solr_ViewHelper_ForLoop' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\ForLoop',
 	'Tx_Solr_ViewHelper_Lll' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\Lll',
 	'Tx_Solr_ViewHelper_Multivalue' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\Multivalue',
 	'Tx_Solr_ViewHelper_OddEven' => 'ApacheSolrForTypo3\\Solr\\ViewHelper\\OddEven',

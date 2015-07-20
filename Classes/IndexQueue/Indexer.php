@@ -309,6 +309,7 @@ class Indexer extends AbstractIndexer {
 			$itemRecord['pid'],
 			$itemRecord['uid']
 		));
+		$document->setField('collapseId', $item->getType() . '/' . $itemRecord['uid']);
 		$document->setField('type',   $item->getType());
 		$document->setField('appKey', 'EXT:solr');
 

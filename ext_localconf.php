@@ -247,6 +247,8 @@ $TYPO3_CONF_VARS['FE']['eID_include']['tx_solr_api']     = 'EXT:solr/Classes/Eid
 
    # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- #
 
+$TYPO3_CONF_VARS['EXTCONF']['solr']['modifyResultDocument'][] = \ApacheSolrForTypo3\Solr\ResultDocumentModifier\CollapseExpansion::class;
+
 	// replace the built-in search content element
 
 $searchReplacementTypoScript = trim('
